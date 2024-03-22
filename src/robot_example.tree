@@ -1,0 +1,23 @@
+// world: A  <--100--> B where A = 0 and B = 100
+// robot: r, load:l
+// 3 points => robot point and initial target point and final target point.
+// the goal is to take the load from initial target point into final target point
+// 1 - head off to the initial target
+//  -- select right direction
+//  -- keep moving until the distance will be 0
+// 2 - pick up the load
+// 3 - move to the final point
+//  -- select the right direction
+//  -- keep moving until the distance will be 0
+// 4 - place the load
+// 5 - come back to the initial point
+//  -- select right direction
+//  -- keep moving until the distance will be 0
+// bb:
+// initial_coord: where the robot is spawned like 10
+// load_coord: where the load is spawned like 80
+// target_coord: where the load should be delivered like 20
+
+root main {
+
+}
