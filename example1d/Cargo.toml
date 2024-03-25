@@ -1,12 +1,13 @@
 [package]
-name = "forester-examples"
+name = "example1d"
 description = "Examples to work with forester"
 authors = ["BorisZhguchev <zhguchev@hotmail.com>"]
 homepage = "https://github.com/besok/forester"
 repository = "https://github.com/besok/forester"
 version = "0.3.0"
 edition = "2021"
-license-file = "LICENSE"
+license-file = "../LICENSE"
 
 [dependencies]
-forester-rs = {path = "../forester",version = "0.3.0"}
+forester-rs = {path = "../../forester",version = "0.3.0"}
+ggez = "0.9.3"

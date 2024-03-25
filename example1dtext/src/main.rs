@@ -8,9 +8,9 @@ use forester_rs::tracer::{Tracer, TracerConfig};
 
 
 fn main() {
-    let mut root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    root.push("src");
-
+    let mut root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .parent().unwrap().to_path_buf();
+    root.push("bt");
     let mut fb = ForesterBuilder::from_fs();
     fb.main_file("robot_example.tree".to_string());
     fb.root(root.clone());
@@ -30,7 +30,7 @@ fn main() {
 
 fn tracer() -> Tracer {
     let mut root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    root.push("src");
+    root.push("");
     root.push("tracer.log");
     Tracer::create(TracerConfig::in_file(root, None)).unwrap()
 }
