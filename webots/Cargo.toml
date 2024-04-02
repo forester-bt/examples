@@ -1,5 +1,5 @@
 [package]
-name = "example1d"
+name = "webots-examples"
 description = "Examples to work with forester"
 authors = ["BorisZhguchev <zhguchev@hotmail.com>"]
 homepage = "https://github.com/besok/forester"
@@ -9,5 +9,5 @@ edition = "2021"
 license-file = "../LICENSE"
 
 [dependencies]
-bevy = "0.13.1"
 forester-rs = {path = "../../forester",version = "0.3.0"}
+forester-webots = {path = "../../forester-webots",version = "0.1.0"}
