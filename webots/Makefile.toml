@@ -1,0 +1,28 @@
+[tasks.build]
+command = "cargo"
+args = ["build"]
+
+[tasks.copy-to]
+script.main = "cp target/debug/create_avoid_obstacles irobot/controllers/create_avoid_obstacles/create_avoid_obstacles"
+script.post = "echo copy .../create_avoid_obstacles"
+
+[tasks.clean]
+command = "cargo"
+args = ["clean"]
+
+[tasks.clean-webots]
+script=[
+
+]
+
+[tasks.prepare]
+dependencies = [
+    "build",
+    "copy-to"
+]
+
+[tasks.clean-all]
+dependencies = [
+    "clean",
+    "clean-webots"
+]

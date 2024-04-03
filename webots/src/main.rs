@@ -1,3 +1,5 @@
+mod c_impl;
+
 use std::path::PathBuf;
 use forester_rs::runtime::action::{Impl, Tick};
 use forester_rs::runtime::args::{RtArgs, RtValue};
@@ -8,24 +10,27 @@ use forester_rs::tracer::{Tracer, TracerConfig};
 
 
 fn main() {
-    let mut root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .parent().unwrap().to_path_buf();
-    root.push("bt");
-    let mut fb = ForesterBuilder::from_fs();
-    fb.main_file("robot_example.tree".to_string());
-    fb.root(root.clone());
+    // let mut root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+    //     .parent().unwrap().to_path_buf();
+    // root.push("bt");
+    // let mut fb = ForesterBuilder::from_fs();
+    // fb.main_file("robot_example.tree".to_string());
+    // fb.root(root.clone());
+    //
+    // fb.register_sync_action("pick", Pick);
+    // fb.register_sync_action("place", Place);
+    // fb.register_sync_action("move", Move);
+    // fb.register_sync_action("is_arrived", ArrivedCheck);
+    // fb.register_sync_action("define_direction", DefineDir);
+    //
+    // fb.tracer(tracer());
+    // let mut forester = fb.build().unwrap();
+    // let res = forester.run();
+    //
+    // println!("{:?}", res);
 
-    fb.register_sync_action("pick", Pick);
-    fb.register_sync_action("place", Place);
-    fb.register_sync_action("move", Move);
-    fb.register_sync_action("is_arrived", ArrivedCheck);
-    fb.register_sync_action("define_direction", DefineDir);
+    // c_impl::main()
 
-    fb.tracer(tracer());
-    let mut forester = fb.build().unwrap();
-    let res = forester.run();
-
-    println!("{:?}", res);
 }
 
 fn tracer() -> Tracer {

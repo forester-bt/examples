@@ -11,3 +11,8 @@ license-file = "../LICENSE"
 [dependencies]
 forester-rs = {path = "../../forester",version = "0.3.0"}
 forester-webots = {path = "../../forester-webots",version = "0.1.0"}
+rand = "0.8.5"
+
+[[bin]]
+name = "create_avoid_obstacles"
+path = "src/main.rs"
