@@ -1,5 +1,6 @@
-mod c_impl;
+mod controller;
 
+use std::f64::consts::PI;
 use std::path::PathBuf;
 use forester_rs::runtime::action::{Impl, Tick};
 use forester_rs::runtime::args::{RtArgs, RtValue};
@@ -7,9 +8,32 @@ use forester_rs::runtime::builder::ForesterBuilder;
 use forester_rs::runtime::context::TreeContextRef;
 use forester_rs::runtime::{RuntimeError, TickResult, to_fail};
 use forester_rs::tracer::{Tracer, TracerConfig};
+use forester_webots::wb_robot_init;
+use crate::controller::Controller;
 
 
 fn main() {
+    wb_robot_init();
+
+    println!("Rust controller of the iRobot Create robot started");
+    let mut controller = Controller::default();
+    controller.init_devices();
+    controller.wait(0.5f64);
+    loop {
+        println!("Robot goes forward");
+        controller.go_forward();
+        controller.go_forward();
+        controller.step();
+    }
+    // controller.flush_ir_receiver();
+    // controller.step();
+    //
+    // controller.turn(PI);
+    // controller.flush_ir_receiver();
+    // controller.step();
+    //
+    // controller.go_backward();
+
     // let mut root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
     //     .parent().unwrap().to_path_buf();
     // root.push("bt");
@@ -30,7 +54,6 @@ fn main() {
     // println!("{:?}", res);
 
     // c_impl::main()
-
 }
 
 fn tracer() -> Tracer {
