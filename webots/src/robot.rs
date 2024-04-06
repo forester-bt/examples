@@ -1,10 +1,11 @@
 use std::process::exit;
-use forester_webots::{wb_distance_sensor_enable, wb_distance_sensor_get_value, wb_motor_set_position, wb_motor_set_velocity, wb_position_sensor_enable, wb_position_sensor_get_value, wb_receiver_enable, wb_receiver_get_queue_length, wb_receiver_next_packet, wb_robot_cleanup, wb_robot_get_basic_time_step, wb_robot_get_device, wb_robot_get_time, wb_robot_step, wb_touch_sensor_enable, wb_touch_sensor_get_value};
-use forester_webots::bindings::{WbDeviceTag};
-use rand::{random, Rng};
+
+use forester_webots::*;
+use forester_webots::bindings::WbDeviceTag;
+use rand::random;
 
 #[derive(Default, Debug)]
-pub struct Controller {
+pub struct Robot {
     basic_step: Option<f64>,
     receiver: Option<WbDeviceTag>,
     leds: Vec<WbDeviceTag>,
@@ -20,7 +21,7 @@ pub struct Controller {
     right_position_sensor: Option<WbDeviceTag>,
 }
 
-impl Controller {
+impl Robot {
     pub fn get_time_step(&mut self) -> i32 {
         if let Some(b_step) = self.basic_step {
             b_step as i32
@@ -105,15 +106,15 @@ impl Controller {
     }
     pub fn go_forward(&self) {
         wb_motor_set_velocity(self.left_motor.unwrap(), 16f64);
-        wb_motor_set_velocity(self.left_motor.unwrap(), 16f64);
+        wb_motor_set_velocity(self.right_motor.unwrap(), 16f64);
     }
     pub fn go_backward(&self) {
         wb_motor_set_velocity(self.left_motor.unwrap(), -8f64);
-        wb_motor_set_velocity(self.left_motor.unwrap(), -8f64);
+        wb_motor_set_velocity(self.right_motor.unwrap(), -8f64);
     }
     pub fn stop(&self) {
         wb_motor_set_velocity(self.left_motor.unwrap(), -0f64);
-        wb_motor_set_velocity(self.left_motor.unwrap(), -0f64);
+        wb_motor_set_velocity(self.right_motor.unwrap(), -0f64);
     }
 
     pub fn wait(&mut self, sec: f64) {
