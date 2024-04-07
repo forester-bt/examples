@@ -22,6 +22,10 @@ pub struct Robot {
 }
 
 impl Robot {
+    pub fn led_on(&mut self) {
+        wb_led_set(self.leds.get(0).unwrap().clone(), 1);
+    }
+
     pub fn get_time_step(&mut self) -> i32 {
         if let Some(b_step) = self.basic_step {
             b_step as i32
@@ -124,17 +128,20 @@ impl Robot {
         }
     }
     pub fn turn(&mut self, angle: f64) {
+        println!("turning: angle={angle}");
         self.stop();
         let left_offset = wb_position_sensor_get_value(self.left_position_sensor.unwrap());
         let right_offset = wb_position_sensor_get_value(self.right_position_sensor.unwrap());
         self.step();
         let neg = if angle < 0.0 { -1.0 } else { 1.0 };
+        println!("turning: neg={neg}, l_offset={left_offset}, r_offset={right_offset}");
         wb_motor_set_velocity(self.left_motor.unwrap(), neg * 8f64);
         wb_motor_set_velocity(self.right_motor.unwrap(), -neg * 8f64);
 
         let mut orientation = 0.0;
 
         while orientation < neg * angle {
+            println!("turning: orientation={orientation}");
             let l = wb_position_sensor_get_value(self.left_position_sensor.unwrap()) - left_offset;
             let r = wb_position_sensor_get_value(self.right_position_sensor.unwrap()) - right_offset;
 
@@ -148,7 +155,7 @@ impl Robot {
     }
 }
 
-fn randdouble() -> f64 {
+pub fn randdouble() -> f64 {
     random::<f64>()
 }
 
