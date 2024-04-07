@@ -1,8 +1,15 @@
 use std::process::exit;
+use std::sync::{Arc, Mutex};
 
 use forester_webots::*;
 use forester_webots::bindings::WbDeviceTag;
 use rand::random;
+
+pub type RobotRef = Arc<Mutex<Robot>>;
+
+pub fn new_robot_ref(robot: Robot) -> RobotRef {
+    Arc::new(Mutex::new(robot))
+}
 
 #[derive(Default, Debug)]
 pub struct Robot {
@@ -20,6 +27,7 @@ pub struct Robot {
     left_position_sensor: Option<WbDeviceTag>,
     right_position_sensor: Option<WbDeviceTag>,
 }
+
 
 impl Robot {
     pub fn led_on(&mut self) {
@@ -66,8 +74,8 @@ impl Robot {
         self.cliff_right = Some(wb_robot_get_device("cliff_right"));
         wb_distance_sensor_enable(self.cliff_right.unwrap(), self.get_time_step());
 
-        self.left_motor = Some(wb_robot_get_device("left wheel motor"));
-        self.right_motor = Some(wb_robot_get_device("right wheel motor"));
+        self.left_motor = Some(wb_robot_get_device("motor_left_wheel"));
+        self.right_motor = Some(wb_robot_get_device("motor_right_wheel"));
         wb_motor_set_position(self.left_motor.unwrap(), f64::INFINITY);
         wb_motor_set_position(self.right_motor.unwrap(), f64::INFINITY);
 
@@ -141,14 +149,15 @@ impl Robot {
         let mut orientation = 0.0;
 
         while orientation < neg * angle {
-            println!("turning: orientation={orientation}");
             let l = wb_position_sensor_get_value(self.left_position_sensor.unwrap()) - left_offset;
             let r = wb_position_sensor_get_value(self.right_position_sensor.unwrap()) - right_offset;
 
             let dl = 0.031 * l;
             let dr = 0.031 * r;
             orientation = neg * (dl - dr) / 0.271756;
+            self.step();
         }
+        println!("turning: orientation={orientation}");
 
         self.stop();
         self.step();
